@@ -26,8 +26,8 @@ data SimState = SimState { _unprocessed :: Set.Set Object
 makeLenses ''SimState
 
 newtype Simulation a = Simulation {
-    runSimulation :: ReaderT Config (StateT SimState IO) a
-  } deriving (Functor, Applicative, Monad, MonadPlus,
+    runSimulation :: ReaderT Config (State SimState) a
+  } deriving (Functor, Applicative, Monad,
               MonadReader Config, MonadState SimState)
 
 process :: Object -> Simulation Object
@@ -59,11 +59,10 @@ initialModel = Set.fromList [
   , Organism 2 (0,0) (10, 10) 10 100 10 Male
   ]
 
-stepModel :: ViewPort -> Float -> Model -> IO Model
+stepModel :: ViewPort -> Float -> Model -> Model
 stepModel _ d m =
-  let cfg  = (m,d)
-      st   = SimState m Set.empty Set.empty
-      runS = runSimulation >>> runReaderT
-  in do
-    (_, st') <- runStateT (runS simulation cfg) st
-    return $ Set.difference (st' ^. processed) (st' ^. removed)
+  let cfg      = (m,d)
+      st       = SimState m Set.empty Set.empty
+      runS     = runSimulation >>> runReaderT
+      (_, st') = runState (runS simulation cfg) st
+  in  Set.difference (st' ^. processed) (st' ^. removed)

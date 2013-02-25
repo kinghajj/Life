@@ -62,6 +62,14 @@ isFemale :: Object -> Bool
 isFemale (Organism _ _ _ _ _ _ Female) = True
 isFemale _                             = False
 
+collide :: Object -> Object -> Bool
+collide o1 o2 =
+  let (x1, y1) = o1 ^. position
+      (x2, y2) = o2 ^. position
+      d        = sqrt ((x2-x1)**2 + (y2-y1)**2)
+      rs       = o1 ^. size + o2 ^. size
+  in d < rs
+
 -- Use objects' ids for determining equality and ordering.
 
 instance Eq Object where
