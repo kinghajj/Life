@@ -32,11 +32,11 @@ newtype Simulation a = Simulation {
 
 process :: Object -> Simulation Object
 process o = do
-  beenRemoved <- Set.member o <$> use removed
-  if beenRemoved || isFood o
+  if isFood o
     then return o
     else do (_, d) <- ask
-            return $ (position +~ ((d,d) * (o ^. velocity))) o
+            return $ o & (position +~ ((d,d) * (o ^. velocity)))
+                       & (energy   -~ (d     * (o ^. metabolism)))
 
 simulation :: Simulation ()
 simulation = do
@@ -56,7 +56,7 @@ initialModel :: Model
 initialModel = Set.fromList [
     Food 0 (100, 100) 20 10
   , Food 1 (-25, -75) 20 10
-  , Organism 2 (0,0) (10, 10) 10 100 Male
+  , Organism 2 (0,0) (10, 10) 10 100 10 Male
   ]
 
 stepModel :: ViewPort -> Float -> Model -> IO Model

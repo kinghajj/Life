@@ -34,12 +34,13 @@ data Object
              , _size     :: Float
              , _energy   :: Float
              }
-  | Organism { _id       :: Int
-             , _position :: (Float, Float)
-             , _velocity :: (Float, Float)
-             , _size     :: Float
-             , _energy   :: Float
-             , _gender   :: Sex
+  | Organism { _id          :: Int
+             , _position    :: (Float, Float)
+             , _velocity    :: (Float, Float)
+             , _size        :: Float
+             , _energy      :: Float
+             , _metabolism  :: Float
+             , _gender      :: Sex
              }
   deriving (Show)
 
@@ -50,16 +51,16 @@ isFood (Food _ _ _ _) = True
 isFood _              = False
 
 isOrganism :: Object -> Bool
-isOrganism (Organism _ _ _ _ _ _) = True
-isOrganism _                      = False
+isOrganism (Organism _ _ _ _ _ _ _) = True
+isOrganism _                        = False
 
 isMale :: Object -> Bool
-isMale (Organism _ _ _ _ _ Male) = True
-isMale _                         = False
+isMale (Organism _ _ _ _ _ _ Male) = True
+isMale _                           = False
 
 isFemale :: Object -> Bool
-isFemale (Organism _ _ _ _ _ Female) = True
-isFemale _                           = False
+isFemale (Organism _ _ _ _ _ _ Female) = True
+isFemale _                             = False
 
 -- Use objects' ids for determining equality and ordering.
 

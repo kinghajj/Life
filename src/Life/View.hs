@@ -14,10 +14,14 @@ import qualified Data.Set as Set
 viewObject :: Object -> Picture
 viewObject o
   | isFood o     = color green $ circleSolid (o ^. size)
-  | isOrganism o = color (case (o ^. gender) of
+  | isOrganism o = let clr =
+                         if (o ^. energy) <= 0
+                          then black
+                          else case (o ^. gender) of
                             Male   -> blue
                             Female -> magenta
-                            None   -> black) $ circleSolid (o ^. size)
+                            None   -> black
+                    in color clr $ circleSolid (o ^. size)
   | otherwise    = Text "?"
 
 viewModel :: Model -> Picture
