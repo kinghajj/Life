@@ -3,7 +3,6 @@ module Life.Model where
 
 import Control.Lens
 import Data.Monoid
-import Graphics.Gloss.Interface.Pure.Simulate
 import Prelude hiding (id)
 import qualified Data.Set as Set
 
@@ -21,6 +20,10 @@ instance Monoid Sex where
   Female `mappend` Female = Female
   a `mappend` None        = a
   None `mappend` a        = a
+
+instance Monoid Float where
+  mempty = 0.0
+  mappend = (+)
 
 -- There are two kinds of objects, food and organisms. Both have ids, positions,
 -- sizes, and energies. Organisms also have velocities and genders.
@@ -50,6 +53,14 @@ isOrganism :: Object -> Bool
 isOrganism (Organism _ _ _ _ _ _) = True
 isOrganism _                      = False
 
+isMale :: Object -> Bool
+isMale (Organism _ _ _ _ _ Male) = True
+isMale _                         = False
+
+isFemale :: Object -> Bool
+isFemale (Organism _ _ _ _ _ Female) = True
+isFemale _                           = False
+
 -- Use objects' ids for determining equality and ordering.
 
 instance Eq Object where
@@ -62,10 +73,3 @@ instance Ord Object where
 
 type Model = Set.Set Object
 
-initialModel :: Model
-initialModel = Set.fromList [
-  Food 0 (100, 100) 20 10
-  ]
-
-stepModel :: ViewPort -> Float -> Model -> Model
-stepModel _ _ m = m
