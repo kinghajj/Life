@@ -1,4 +1,15 @@
 {-# LANGUAGE TemplateHaskell #-}
+--------------------------------------------------------------------------------
+-- |
+-- Module      : Life.Model
+-- Copyright   : (C) 2013 Sam Fredrickson
+-- License     : BSD-style (see "LICENSE" file)
+-- Maintainer  : Sam Fredrickson <kinghajj@gmail.com>
+-- Stability   : experimental
+-- Portability : GHC
+--
+-- The model to be simulated by the program.
+--------------------------------------------------------------------------------
 module Life.Model where
 
 import Control.Lens
@@ -14,15 +25,15 @@ data Sex = Male | Female | None deriving (Show)
 
 instance Monoid Sex where
   mempty = None
-  Male `mappend` Male     = Male
-  Male `mappend` Female   = None
+  Male   `mappend` Male   = Male
+  Male   `mappend` Female = None
   Female `mappend` Male   = None
   Female `mappend` Female = Female
-  a `mappend` None        = a
-  None `mappend` a        = a
+  a      `mappend` None   = a
+  None   `mappend` a      = a
 
 instance Monoid Float where
-  mempty = 0.0
+  mempty  = 0.0
   mappend = (+)
 
 -- There are two kinds of objects, food and organisms. Both have ids, positions,
@@ -68,7 +79,7 @@ collide o1 o2 =
       (x2, y2) = o2 ^. position
       d        = sqrt ((x2-x1)**2 + (y2-y1)**2)
       rs       = o1 ^. size + o2 ^. size
-  in d < rs
+  in  d < rs
 
 -- Use objects' ids for determining equality and ordering.
 
@@ -81,4 +92,3 @@ instance Ord Object where
 -- The model is simply a set of objects.
 
 type Model = Set.Set Object
-

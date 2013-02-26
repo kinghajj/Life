@@ -1,6 +1,18 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TemplateHaskell #-}
-module Life.Simulation where
+--------------------------------------------------------------------------------
+-- |
+-- Module      : Life.Simulation
+-- Copyright   : (C) 2013 Sam Fredrickson
+-- License     : BSD-style (see "LICENSE" file)
+-- Maintainer  : Sam Fredrickson <kinghajj@gmail.com>
+-- Stability   : experimental
+-- Portability : GHC
+--
+-- Simulate the model from Life.Model by some timestep.
+--------------------------------------------------------------------------------
+
+module Life.Simulation (initialModel, stepModel) where
 
 import Control.Applicative
 import Control.Arrow

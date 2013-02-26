@@ -1,3 +1,14 @@
+--------------------------------------------------------------------------------
+-- |
+-- Module      : Life.View
+-- Copyright   : (C) 2013 Sam Fredrickson
+-- License     : BSD-style (see "LICENSE" file)
+-- Maintainer  : Sam Fredrickson <kinghajj@gmail.com>
+-- Stability   : experimental
+-- Portability : GHC
+--
+-- Transform the model from Life.Mode into a Gloss Picture.
+--------------------------------------------------------------------------------
 module Life.View (viewModel) where
 
 -- We'll use lots of items from these modules, so don't bother specifying all.
